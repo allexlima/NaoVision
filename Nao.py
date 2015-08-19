@@ -2,6 +2,7 @@
 # _*_ coding: utf-8 _*_
 
 from naoqi import ALProxy
+import vision_definitions
 import numpy
 
 class Nao:
@@ -24,13 +25,19 @@ class Nao:
         return self.Motion.post.stiffnessInterpolation("Body", mode, 0.1)
 
     def StartPosition(self):
-        self.RobotPosture.goToPosture("Sit", 0.5)
-
+        self.Stiffness(1)
+        self.RobotPosture.goToPosture("Sit", 0.8)
+        self.Stiffness(0)
 
     def GetImage(self):
-        process = self.VideoDevice.subscribe("NaoColors", 2, 11, 5)
+        resolution = vision_definitions.kVGA
+        colorSpace = vision_definitions.kBGRColorSpace
+        fps = 30
+        self.VideoDevice.unsubscribe("NaoVision")
+        process = self.VideoDevice.subscribe("NaoVision", resolution, colorSpace, fps)
         nao_image = self.VideoDevice.getImageRemote(process)
-        return (numpy.reshape(numpy.frombuffer(nao_image[6], dtype = '%iuint8' % nao_image[2]), (nao_image[1], nao_image[0], nao_image[2])))
+        img = (numpy.reshape(numpy.frombuffer(nao_image[6], dtype = '%iuint8' % nao_image[2]), (nao_image[1], nao_image[0], nao_image[2])))
+        return img
 
-    def TurnOff(self):
-        self.proxy[4].unsubscribe("NaoColors")
+    def setSpeak(self, text):
+        self.TextToSpeech.say(text)
