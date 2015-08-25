@@ -1,16 +1,24 @@
-import numpy
+import naoqi
+import time
 
-cores = [
-    ["Azul", numpy.array([100, 150, 30]), numpy.array([130, 255, 255])],
-    ["Amarelo", numpy.array([15, 100, 80]), numpy.array([30, 255, 255])],
-    ["Vermelho", numpy.array([0, 60, 55]), numpy.array([3, 255, 255])],
-    ["Verde", numpy.array([50, 90, 30]), numpy.array([80, 255, 255])]
-]
+dcm = naoqi.ALProxy("DCM", "192.168.1.115", 9559)
 
-color = 20
-print  cores[2][2][0]
-print range(cores[2][1][0], cores[2][2][0])
+'''
+dcm.createAlias(["Movimentos", [
+    "Device/SubDeviceList/LElbowYaw/Position/Actuator/Value",
+    "Device/SubDeviceList/LWristYaw/Position/Actuator/Value",
+    "Device/SubDeviceList/HeadPitch/Position/Actuator/Value",
+    "Device/SubDeviceList/HeadYaw/Position/Actuator/Value"
+]])
 
-for i in range(0, len(cores), 1):
-    if color in range(cores[i][1][0], cores[i][2][0]+1):
-        print cores[i][0]
+dcm.setAlias(["Movimentos", "Merge", "time-mixed", [
+    [[-1.413, dcm.getTime(1500)]],
+    [[-1.815, dcm.getTime(1000)]],
+    [[0.43, dcm.getTime(1000)]],
+    [[0.58, dcm.getTime(2000)]]
+]])
+'''
+
+dcm.set(["Device/SubDeviceList/LElbowYaw/Position/Actuator/Value", "ClearAll", [[-1.413, dcm.getTime(1000)]]])
+time.sleep(3)
+dcm.set(["Device/SubDeviceList/LWristYaw/Position/Actuator/Value", "ClearAll", [[-1.815, dcm.getTime(1000)]]])
