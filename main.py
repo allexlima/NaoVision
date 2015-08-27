@@ -6,11 +6,7 @@ from Vision import *
 import time
 
 if __name__ == "__main__":
-    Robot = Nao('192.168.1.101', 9559)
-    '''Robot.StartPosition()
-    time.sleep(1)
-    Robot.Motion.openHand("LHand")
-    time.sleep(1)
-    Robot.Motion.closeHand("LHand")'''
-    Camera = Vision(Robot)
-    Camera.getColor()
+    Robot = Nao('192.168.1.148', 9559)
+    Robot.StartPosition()
+    #Camera = Vision(Robot)
+    #Camera.getColor()
