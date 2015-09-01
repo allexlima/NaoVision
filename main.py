@@ -3,6 +3,7 @@
 
 from Nao import Nao
 from Vision import Vision
+from cv2 import waitKey
 
 if __name__ == "__main__":
     Robot = Nao('192.168.1.104', 9559)
