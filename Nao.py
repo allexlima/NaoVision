@@ -6,7 +6,6 @@ import vision_definitions
 import numpy
 import time
 
-
 class Nao:
     def __init__(self, ip, port):
         self.ip = ip
@@ -17,6 +16,7 @@ class Nao:
         try:
             self.Motion = ALProxy('ALMotion', self.ip, self.port)
             self.TextToSpeech = ALProxy('ALTextToSpeech', self.ip, self.port)
+            #self.SpeechRecognition = ALProxy('ALSpeechRecognition', self.ip, self.port)
             self.RobotPosture = ALProxy("ALRobotPosture", self.ip, self.port)
             self.VideoDevice = ALProxy("ALVideoDevice", self.ip, self.port)
             self.DCM = ALProxy("DCM", self.ip, self.port)
@@ -24,10 +24,12 @@ class Nao:
             print e
 
     def Stiffness(self, mode):
-        return self.Motion.post.stiffnessInterpolation("Body", mode, 0.1)
+        motors = ["HeadPitch", "HeadYaw", "LElbowYaw", "LShoulderPitch", "LHand"]
+        return self.Motion.post.stiffnessInterpolation(motors, mode, 0.1)
 
     def StartPosition(self):
         self.RobotPosture.goToPosture("Sit", 0.8)
+
         try:
             self.DCM.createAlias(["Movimentos", [
                 "Device/SubDeviceList/RWristYaw/Position/Actuator/Value",
@@ -39,6 +41,15 @@ class Nao:
                 "Device/SubDeviceList/HeadPitch/Position/Actuator/Value",
             ]])
             self.Motion.post.stiffnessInterpolation("Body", 0.8, 0.1)
+            '''self.DCM.setAlias(["Movimentos", "Merge", "time-mixed", [
+                [[1.64, self.DCM.getTime(800)]],
+                [[0.84, self.DCM.getTime(800)]],
+                [[0.64, self.DCM.getTime(500)]],
+                [[1.31, self.DCM.getTime(800)]],
+                [[-0.019, self.DCM.getTime(100)]],
+                [[-0.43, self.DCM.getTime(800)]],
+                [[0.45, self.DCM.getTime(100)]]
+            ]])'''
             self.DCM.setAlias(["Movimentos", "Merge", "time-mixed", [
                 [[1.05, self.DCM.getTime(800)]],
                 [[1.91, self.DCM.getTime(800)]],
@@ -63,12 +74,7 @@ class Nao:
                 [[-0.43, self.DCM.getTime(800)]],
                 [[0.45, self.DCM.getTime(100)]]
             ]])
-        except Exception, e:
-            print e
-
-    def setFinish(self):
-        time.sleep(1)
-        try:
+            time.sleep(1)
             self.DCM.setAlias(["Movimentos", "Merge", "time-mixed", [
                 [[1.05, self.DCM.getTime(800)]],
                 [[1.91, self.DCM.getTime(800)]],
@@ -78,12 +84,7 @@ class Nao:
                 [[-0.08, self.DCM.getTime(800)]],
                 [[0.019, self.DCM.getTime(100)]]
             ]])
-            self.setSpeak("Prontinho!")
-            self.DCM.set(["Device/SubDeviceList/RHand/Position/Actuator/Value", "Merge", [[0.6, self.DCM.getTime(1000)]]])
-            time.sleep(1.5)
-            self.Stiffness(0.0)
-            self.RobotPosture.goToPosture("Sit", 0.8)
-            self.Stiffness(0.0)
+
         except Exception, e:
             print e
 
