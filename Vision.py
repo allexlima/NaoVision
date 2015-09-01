@@ -15,6 +15,7 @@ class Vision:
             ["Vermelho", numpy.array([0, 60, 55]), numpy.array([3, 255, 255]), False],
             ["Verde", numpy.array([50, 90, 30]), numpy.array([80, 255, 255]), False]
         ]
+        self.imagem = self.device.GetImage()
 
     def getColor(self):
         img = self.device.GetImage()
@@ -47,5 +48,5 @@ class Vision:
                  self.device.setSpeak("Não conheço esta cor")
 
     def show(self):
-        cv2.imshow("NAOVision RealCam", self.Df)
-        cv2.waitKey(0)
+        cv2.imshow("ok", self.imagem)
+        cv2.waitKey(10)
