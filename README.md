@@ -1,7 +1,7 @@
 # NAOCacsi
 
-Algoritmo em Python 2.x que identifica as cores azul, amarelo, vermelho e verde utilizando a biblioteca de visÃ£o computacional OpenCv.
-Finalidade: Resumo estendido, CACSI 2015 / Fins acadÃªmicos.
+Algoritmo em Python 2.x que identifica as cores azul, amarelo, vermelho e verde utilizando a biblioteca de visão computacional OpenCv.
+Finalidade: Resumo estendido, CACSI 2015 / Fins acadêmicos.
 
-Autores: Allex Lima, Amanda Bastos e Nicoli AraÃºjo
-Professores orientadores: ProfÂª DrÂª Marlene Faria e ProfÂº Ms.C Walter SimÃµes
+Autores: Allex Lima, Amanda Bastos e Nicoli Araújo
+Professores orientadores: Profª Drª Marlene Faria e Profº Ms.C Walter Simões
